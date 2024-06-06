@@ -766,6 +766,7 @@ require('lazy').setup({
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
+          { name = 'jupynium', priority = 500 },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -791,6 +792,7 @@ require('lazy').setup({
       vim.cmd.hi 'Comment gui=none'
     end,
   },
+  'Shadorain/shadotheme',
 
   {
     'jesseleite/nvim-noirbuddy',
@@ -801,14 +803,21 @@ require('lazy').setup({
     priority = 1000,
     opts = {
       -- All of your `setup(opts)` will go here
-      colors = {
-        preset = 'miami-nights',
-      },
     },
     init = function()
       vim.cmd.colorscheme 'noirbuddy'
     end,
   },
+
+  -- jupyter notebook support
+  {
+    'kiyoon/jupynium.nvim',
+    build = 'pip3 install --user .',
+    -- build = "conda run --no-capture-output -n jupynium pip install .",
+    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
+  },
+  'rcarriga/nvim-notify', -- optional
+  'stevearc/dressing.nvim', -- optional, UI for :JupyniumKernelSelect
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
