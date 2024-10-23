@@ -838,15 +838,6 @@ require('lazy').setup({
       vim.cmd.hi 'Comment gui=none'
     end,
   },
-  'Shadorain/shadotheme',
-
-  -- jupyter notebook support
-  {
-    'kiyoon/jupynium.nvim',
-    build = 'pip3 install --user .',
-    -- build = "conda run --no-capture-output -n jupynium pip install .",
-    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
-  },
   'rcarriga/nvim-notify', -- optional
   'stevearc/dressing.nvim', -- optional, UI for :JupyniumKernelSelect
 
@@ -950,6 +941,13 @@ require('lazy').setup({
       -- VimTeX configuration goes here
       vim.g.vimtex_view_method = 'zathura'
     end,
+  },
+  -- jupyter notebook support
+  {
+    'kiyoon/jupynium.nvim',
+    build = 'pip3 install --user .',
+    -- build = "conda run --no-capture-output -n jupynium pip install .",
+    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
   },
 }, {
   ui = {
