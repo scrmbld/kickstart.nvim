@@ -191,6 +191,29 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- do double spaces before newlines in markdown files
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = { '*.markdown', '*.mdown', '*.mkd', '*.mkdn', '*.mdwn', '*.md' },
+  callback = function()
+    vim.schedule(function()
+      vim.keymap.set('i', '<Enter>', '<Space><Space><Enter>', { desc = 'Double space before newline', buffer = true })
+      vim.keymap.set('n', 'o', '$i<Space><Space><Enter>', { desc = 'Double space before newline', buffer = true })
+      vim.keymap.set('n', 'O', '$i<Space><Space><Esc>O', { desc = 'Double space before newline', buffer = true })
+    end)
+  end,
+})
+
+-- start & sync jupyter notebook when opening a .ju.py file
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = { '*.ju.py' },
+  callback = function()
+    vim.schedule(function()
+      vim.keymap.set('n', '<leader>ja', vim.cmd.JupyniumStartAndAttachToServer, { desc = 'Start jupyter server', buffer = true })
+      vim.keymap.set('n', '<leader>ji', vim.cmd.JupyniumStartSync, { desc = 'Sync buffer to jupyter browser', buffer = true })
+    end)
+  end,
+})
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -864,8 +887,6 @@ require('lazy').setup({
 
       require('mini.comment').setup()
 
-      require('mini.icons').setup()
-
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
@@ -924,7 +945,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
@@ -954,9 +975,9 @@ require('lazy').setup({
   -- MarkDown stuff
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     latex = {
