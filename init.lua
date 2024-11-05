@@ -192,13 +192,20 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- do double spaces before newlines in markdown files
-vim.keymap.set('n', '<leader>mf', function()
-  -- match strings that begin at ^ and end with newline
-  -- match strings that contain at least one non-space character
-  -- match strings that do not end with two spaces
-  -- replace with the matched string from ^ to the last non-space character, followed by two spaced and \r
-  vim.cmd 'silent %s/\\v^(\\s*.*[^ ]+)([ ]{0,1})\\n/\\1  \r'
-end)
+vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+  pattern = { '*.markdown', '*.mdown', '*.mkd', '*.mkdn', '*.mdwn', '*.md' },
+  callback = function()
+    vim.schedule(function()
+      vim.keymap.set('n', '<leader>mf', function()
+        -- match strings that begin at ^ and end with newline
+        -- match strings that contain at least one non-space character
+        -- match strings that do not end with two spaces
+        -- replace with the matched string from ^ to the last non-space character, followed by two spaced and \r
+        vim.cmd 'silent %s/\\v^(\\s*.*[^ ]+)([ ]{0,1})\\n/\\1  \r'
+      end)
+    end)
+  end,
+})
 
 -- start & sync jupyter notebook when opening a .ju.py file
 vim.api.nvim_create_autocmd('BufEnter', {
