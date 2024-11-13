@@ -201,7 +201,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
         -- match strings that contain at least one non-space character
         -- match strings that do not end with two spaces
         -- replace with the matched string from ^ to the last non-space character, followed by two spaced and \r
-        vim.cmd 'silent %s/\\v^(\\s*.*[^ ]+)([ ]{0,1})\\n/\\1  \r'
+        vim.cmd 'silent %s/\\v^(\\s*.*[^ ]+)([ ]{0,1})\\n/\\1  \r/e'
       end)
     end)
   end,
