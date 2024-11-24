@@ -111,9 +111,9 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+-- vim.schedule(function()
+--   vim.opt.clipboard = 'unnamedplus'
+-- end)
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -209,7 +209,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
 
 -- start & sync jupyter notebook when opening a .ju.py file
 vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = { '*.ju.py' },
+  pattern = { '*.ju.*' },
   callback = function()
     vim.schedule(function()
       vim.keymap.set('n', '<leader>ja', vim.cmd.JupyniumStartAndAttachToServer, { desc = 'Start jupyter server', buffer = true })
@@ -958,7 +958,9 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  { import = 'custom.plugins' },
+  require 'custom.plugins.vimtex',
+  require 'custom.plugins.render-markdown',
+  require 'custom.plugins.jupynium',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
