@@ -961,6 +961,7 @@ require('lazy').setup({
   require 'custom.plugins.vimtex',
   require 'custom.plugins.render-markdown',
   require 'custom.plugins.jupynium',
+  require 'custom.plugins.love2d',
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
