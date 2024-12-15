@@ -191,6 +191,22 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- jump to previous edit position on file open
+vim.api.nvim_create_autocmd('BufReadPost', {
+  pattern = { '*' },
+  callback = function()
+    local line = vim.fn.line '\'"'
+    if
+        line >= 1
+        and line <= vim.fn.line '$'
+        and vim.bo.filetype ~= 'commit'
+        and vim.fn.index({ 'xxd', 'gitrebase' }, vim.bo.filetype) == -1
+    then
+      vim.cmd 'normal! g`"'
+    end
+  end,
+})
+
 -- do double spaces before newlines in markdown files
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   pattern = { '*.markdown', '*.mdown', '*.mkd', '*.mkdn', '*.mdwn', '*.md' },
@@ -212,8 +228,10 @@ vim.api.nvim_create_autocmd('BufEnter', {
   pattern = { '*.ju.*' },
   callback = function()
     vim.schedule(function()
-      vim.keymap.set('n', '<leader>ja', vim.cmd.JupyniumStartAndAttachToServer, { desc = 'Start jupyter server', buffer = true })
-      vim.keymap.set('n', '<leader>ji', vim.cmd.JupyniumStartSync, { desc = 'Sync buffer to jupyter browser', buffer = true })
+      vim.keymap.set('n', '<leader>ja', vim.cmd.JupyniumStartAndAttachToServer,
+        { desc = 'Start jupyter server', buffer = true })
+      vim.keymap.set('n', '<leader>ji', vim.cmd.JupyniumStartSync,
+        { desc = 'Sync buffer to jupyter browser', buffer = true })
     end)
   end,
 })
@@ -299,7 +317,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -342,7 +360,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode',     mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -382,7 +400,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -478,7 +496,7 @@ require('lazy').setup({
       },
     },
   },
-  { 'Bilal2453/luvit-meta', lazy = true },
+  { 'Bilal2453/luvit-meta',     lazy = true },
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -490,7 +508,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
@@ -675,7 +693,7 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
+        -- 'stylua', -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -866,7 +884,7 @@ require('lazy').setup({
       vim.cmd.hi 'Comment gui=none'
     end,
   },
-  'rcarriga/nvim-notify', -- optional
+  'rcarriga/nvim-notify',   -- optional
   'stevearc/dressing.nvim', -- optional, UI for :JupyniumKernelSelect
 
   -- Highlight todo, notes, etc in comments
