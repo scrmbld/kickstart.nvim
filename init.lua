@@ -190,6 +190,9 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- open diagnostic in floating buffer
+vim.keymap.set('n', '<leader>df', '<cmd> lua vim.diagnostic.open_float() <CR>', { desc = 'Open floating diagnostic'})
+
 -- jump to previous edit position on file open
 vim.api.nvim_create_autocmd('BufReadPost', {
   pattern = { '*' },
@@ -816,6 +819,8 @@ require('lazy').setup({
           end,
         },
         completion = { completeopt = 'menu,menuone,noinsert' },
+
+        preselect = cmp.PreselectMode.None,
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
